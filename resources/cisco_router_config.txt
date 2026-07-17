@@ -1,0 +1,92 @@
+! =====================================================================
+! CONFIGURACIÓN AAA Y RADIUS EN ROUTER CISCO
+! Asignatura: Seguridad de Redes
+! Estudiante: Alan Daniel Garcia Mendez (2025-1403)
+! =====================================================================
+
+! 1. Configuración de Interfaces y Conectividad Básica (PNETLab Ethernet)
+interface Ethernet0/0
+ description LAN_Clientes
+ ip address 14.3.0.1 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+interface Ethernet0/1
+ description LAN_Servidores
+ ip address 14.3.50.1 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+! Interfaz de salida a Internet conectada a la nube NAT (Cloud) en PNETLab
+interface Ethernet0/2
+ description WAN_Internet
+ ip address dhcp
+ ip nat outside
+ no shutdown
+exit
+
+! 2. Configuración de NAT Overload (PAT) para acceso general a Internet
+! ACL que permite la traducción de las redes de clientes y servidores
+access-list 1 permit 14.3.0.0 0.0.0.255
+access-list 1 permit 14.3.50.0 0.0.0.255
+
+! Activar la traducción sobre la interfaz externa Ethernet0/2
+ip nat inside source list 1 interface Ethernet0/2 overload
+
+! 3. Configuración de Credenciales Locales de Contingencia
+! (Se utiliza en caso de que el servidor RADIUS no esté disponible)
+username admin privilege 15 secret LocalAdminPass992
+
+! Contraseña para acceder al modo de configuración global (enable)
+enable secret EnableSecretPass992
+
+! 4. Habilitación de AAA (Authentication, Authorization, and Accounting)
+aaa new-model
+
+! 5. Definición del Servidor RADIUS (NPS)
+! Sustituir <NPS_IP> por la dirección IP de tu servidor Windows Server NPS
+! Sustituir <SHARED_SECRET> por la clave compartida configurada en NPS
+radius server NPS_SERVER
+  address ipv4 14.3.50.2 auth-port 1812 acct-port 1813
+  key ClaveSecretaRadius992
+exit
+
+! (Opcional - Sintaxis clásica/antigua para compatibilidad)
+! radius-server host 14.3.50.2 auth-port 1812 acct-port 1813 key ClaveSecretaRadius992
+
+! 6. Configuración de Listas AAA (Autenticación y Autorización)
+! Autenticación para login por SSH/Telnet: Usar RADIUS primero, si falla usar base local
+aaa authentication login default group radius local
+
+! Autorización para la ejecución del shell (EXEC): Obtener nivel de privilegio vía RADIUS
+aaa authorization exec default group radius local
+
+! 7. Configuración de Logs y Registro (Accounting)
+! Registra el inicio y fin de las sesiones EXEC (SSH/Terminal)
+aaa accounting exec default start-stop group radius
+
+! Registra los comandos de configuración ejecutados (Nivel 15)
+aaa accounting commands 15 default start-stop group radius
+
+! 8. Configuración de las Líneas VTY para SSH
+ip domain name alan.local
+crypto key generate rsa general-keys modulus 2048
+
+ip ssh version 2
+
+line vty 0 4
+ transport input ssh
+ login authentication default
+ authorization exec default
+exit
+
+! 9. Comandos Útiles para Depuración y Monitoreo (Modo Privilegiado)
+! debug aaa authentication     <- Activa depuración de autenticación AAA
+! debug aaa authorization      <- Activa depuración de autorización AAA
+! debug radius                 <- Activa depuración del tráfico RADIUS
+! show aaa servers             <- Muestra el estado del servidor RADIUS
+! show aaa sessions            <- Muestra las sesiones AAA activas actualmente
+! show ip nat translations     <- Muestra las traducciones NAT activas
+! show ip nat statistics       <- Muestra estadísticas de funcionamiento de NAT
