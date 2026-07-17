@@ -210,7 +210,7 @@ Para enviar el nivel de privilegio correcto al router Cisco tras un inicio de se
 8.  **Orden de evaluación:** Asegúrese en el panel de NPS que estas dos políticas creadas tengan prioridad y estén listadas por encima de cualquier regla de bloqueo predeterminada.
 
 <div style="text-align: center; margin-top: 15px; margin-bottom: 15px;">
-  <img src="images/09_nps_policies_list.png" alt="Lista de Políticas en NPS" width="600">
+  <img src="images/08_nps_policies_list.png" alt="Lista de Políticas en NPS" width="600">
   <p><em>Figura 9: Listado jerárquico de políticas en NPS con prioridad en la evaluación de accesos</em></p>
 </div>
 
