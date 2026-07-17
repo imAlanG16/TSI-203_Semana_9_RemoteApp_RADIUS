@@ -11,8 +11,8 @@
   <p><strong>Asignatura:</strong> Seguridad de Redes</p>
   <p><strong>Docente:</strong> Jonathan Esteban Rondon Corniel</p>
   <p><strong>Fecha de entrega:</strong> 16 de julio de 2026</p>
-  <p><strong>Enlace del video:</strong> [https://youtu.be/s9imWZqL1VQ](https://youtu.be/s9imWZqL1VQ)</p>
-  <p><strong>Enlace del repositorio:</strong> [https://github.com/imAlanG16/TSI-203_Semana_9_RemoteApp_RADIUS](https://github.com/imAlanG16/TSI-203_Semana_9_RemoteApp_RADIUS)</p>
+  <p><strong>Enlace del video:</strong> <a href="https://youtu.be/s9imWZqL1VQ">https://youtu.be/s9imWZqL1VQ</a></p>
+  <p><strong>Enlace del repositorio:</strong> <a href="https://github.com/imAlanG16/TSI-203_Semana_9_RemoteApp_RADIUS">https://github.com/imAlanG16/TSI-203_Semana_9_RemoteApp_RADIUS</a></p>
 </div>
 
 <div style="page-break-after: always; break-after: page; display: block; height: 1px; overflow: hidden;"></div>
