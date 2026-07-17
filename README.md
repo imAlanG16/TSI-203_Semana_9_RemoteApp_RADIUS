@@ -1,3 +1,33 @@
+<style>
+/* Evitar orfandad de títulos al exportar a PDF */
+h1, h2, h3, h4, h5, h6 {
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+}
+
+/* Evitar que los bloques de artículos se corten entre páginas */
+.article-block {
+  display: block !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+/* Evitar que imágenes, tablas, código, párrafos, listas y citas se dividan */
+img, table, pre, p, li, tr, blockquote, figure, div[style*="text-align: center"] {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+/* Asegurar que el body no interfiera con los saltos de página en la impresión */
+@media print {
+  body {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+</style>
+
 # Reporte de Laboratorio: RDP RemoteApp, NPS y Cisco AAA
 
 <div style="text-align: center; margin-top: 50px;">
@@ -15,11 +45,15 @@
   <p><strong>Enlace del repositorio:</strong> <a href="https://github.com/imAlanG16/TSI-203_Semana_9_RemoteApp_RADIUS">https://github.com/imAlanG16/TSI-203_Semana_9_RemoteApp_RADIUS</a></p>
 </div>
 
-<div style="page-break-after: always; break-after: page; display: block; height: 1px; overflow: hidden;"></div>
+<div class="article-block">
 
 ## 1. Introducción
 
 El presente informe técnico describe la implementación de una infraestructura de acceso seguro y control de administración basada en Windows Server 2016 y equipos de comunicaciones Cisco. El objetivo de este laboratorio es doble: en primer lugar, implementar la virtualización de aplicaciones a través de Microsoft Remote Desktop Services (RDS) en las modalidades clásica de RemoteApp y cliente web moderno basado en HTML5 (RemoteApp Web Client), alojando y publicando una intranet corporativa personalizada bajo el servidor web IIS. En segundo lugar, establecer un control de acceso centralizado para la administración de la red (AAA) utilizando Network Policy Server (NPS) como servidor RADIUS, el cual discrimina los privilegios de los administradores en función de grupos de Active Directory para otorgar accesos diferenciados (Privilegio 15 y Privilegio 1) sobre las terminales de red administradas.
+
+</div>
+
+<div class="article-block">
 
 ## 2. Topología del Laboratorio y Direccionamiento
 
@@ -45,6 +79,10 @@ A continuación, se detalla el direccionamiento IP lógico establecido para la p
 | **Router_Cisco** | Ethernet0/2 | IP por DHCP | Variable | N/A | Interfaz WAN / Internet (Outside), NAT Overload |
 | **Windows_Server** | Ethernet0 | 14.3.50.2 | 255.255.255.0 | 14.3.50.1 | AD DS, DNS, IIS, RDS Connection Broker, NPS (RADIUS) |
 | **Cliente_VM** | Ethernet0 | 14.3.0.50 | 255.255.255.0 | 14.3.0.1 | RDP Client, SSH Client, Web Browser |
+
+</div>
+
+<div class="article-block">
 
 ## 3. Configuración de Windows Server 2016 en Adelante
 
@@ -127,6 +165,10 @@ Para publicar el sitio web de IIS como una aplicación de RemoteApp en lugar de 
   <img src="images/05_publicacion_remoteapp.png" alt="Publicación del sitio en RemoteApp" width="600">
   <p><em>Figura 5: Propiedades del RemoteApp configuradas para ejecutar Edge con parámetros de URL específicos</em></p>
 </div>
+
+</div>
+
+<div class="article-block">
 
 ## 4. Configuración del Servicio NPS (RADIUS Server)
 
@@ -213,6 +255,10 @@ Para enviar el nivel de privilegio correcto al router Cisco tras un inicio de se
   <img src="images/08_nps_policies_list.png" alt="Lista de Políticas en NPS" width="600">
   <p><em>Figura 9: Listado jerárquico de políticas en NPS con prioridad en la evaluación de accesos</em></p>
 </div>
+
+</div>
+
+<div class="article-block">
 
 ## 5. Configuración del Router (Cisco AAA + RADIUS)
 
@@ -301,6 +347,10 @@ line vty 0 4
  authorization exec default
 exit
 ```
+
+</div>
+
+<div class="article-block">
 
 ## 6. Pruebas de Funcionamiento y Evidencias de Conectividad
 
@@ -432,6 +482,11 @@ La evidencia de la auditoría y diagnóstico se recopila en las siguientes salid
   <p><em>Figura 14.1: Salidas de comandos show aaa servers (estado UP de NPS) y show aaa sessions (usuario ARD conectado)</em></p>
 </div>
 
+</div>
+
+<div class="article-block">
+
 ## 7. Conclusión
 
 La realización de este laboratorio comprueba los beneficios de integrar tecnologías de virtualización de servicios con sistemas de control de acceso basados en la red. RemoteApp y su contraparte Web Client resuelven la disponibilidad de herramientas y portales del negocio (como la intranet IIS) desde cualquier ubicación sin comprometer la seguridad física de los servidores. Por su parte, la combinación de RADIUS (NPS) con AAA en la electrónica de red de Cisco facilita una gestión eficiente de los accesos administrativos, eliminando la necesidad de contraseñas locales idénticas compartidas en múltiples dispositivos y reduciendo la superficie de ataque del entorno tecnológico.
+</div>
